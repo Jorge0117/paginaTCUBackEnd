@@ -6,7 +6,7 @@ from .blueprints.bp_usuarios import bp_usuarios
 
 # creating the Flask application
 app = Flask(__name__)
-CORS(app, resources={r"/src/*": {"origins": "http://localhost:4200"}})
+CORS(app)
 
 # if needed, generate database schema
 Base.metadata.create_all(engine)

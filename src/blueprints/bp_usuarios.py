@@ -15,7 +15,7 @@ def consultar_usuarios():
     session.close()
     return jsonify(usuario)
 
-@bp_usuarios.route('/usuario-id', methods=['GET'])
+@bp_usuarios.route('/usuarios/id', methods=['GET'])
 def consultar_usuario_id():
     correo = request.args.get('correo')
     session = Session()
@@ -44,17 +44,15 @@ def agregar_usuario():
     session.close()
     return jsonify(nuevo_usuario), 201
 
-@bp_usuarios.route('/editar-usuario', methods=['POST'])
+@bp_usuarios.route('/usuarios/editar', methods=['POST'])
 def editar_usuario():
-    correo = request.args.get('correo')
-
     posted_usuario = UsuariosSchema(only=('correo', 'nombre', 'apellido1', 'apellido2', 'contrasenna', 'tipo')) \
         .load(request.get_json())
 
     usuario_actualizado = Usuarios(**posted_usuario)
 
     session = Session()
-    objeto_usuario = session.query(Usuarios).get(correo)
+    objeto_usuario = session.query(Usuarios).get(usuario_actualizado.correo)
     if objeto_usuario is None:
         return "Usuario no encontrado", 404
 
@@ -73,7 +71,7 @@ def editar_usuario():
 
     return jsonify(usuario)
 
-@bp_usuarios.route('/eliminar-usuario', methods=['DELETE'])
+@bp_usuarios.route('/usuarios', methods=['DELETE'])
 def eliminar_usuario():
     correo = request.args.get('correo')
     session = Session()
@@ -85,4 +83,4 @@ def eliminar_usuario():
     session.commit()
 
     session.close()
-    return 'Usuario eliminado', 200
+    return '', 200
