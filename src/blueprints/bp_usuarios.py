@@ -1,10 +1,13 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
+
 from ..entities.entity import Session
 from ..entities.usuarios import Usuarios, UsuariosSchema
 
 bp_usuarios = Blueprint('bp_usuarios', __name__)
 
 @bp_usuarios.route('/usuarios')
+@jwt_required
 def consultar_usuarios():
     session = Session()
     objeto_usuarios = session.query(Usuarios).all()
@@ -16,6 +19,7 @@ def consultar_usuarios():
     return jsonify(usuario)
 
 @bp_usuarios.route('/usuarios/id', methods=['GET'])
+@jwt_required
 def consultar_usuario_id():
     correo = request.args.get('correo')
     session = Session()
@@ -27,15 +31,21 @@ def consultar_usuario_id():
     return jsonify(usuario)
 
 @bp_usuarios.route('/usuarios', methods=['POST'])
+@jwt_required
 def agregar_usuario():
-    # mount exam object
+
     posted_usuario = UsuariosSchema(only=('correo', 'nombre', 'apellido1', 'apellido2', 'contrasenna', 'tipo'))\
         .load(request.get_json())
 
     usuario = Usuarios(**posted_usuario)
 
-    # persist exam
     session = Session()
+
+    usuario_base = session.query(Usuarios).get(usuario.correo)
+    if usuario_base is not None:
+        session.close()
+        return 'Usuario ya se encuentra en la base', 409
+
     session.add(usuario)
     session.commit()
 
@@ -45,6 +55,7 @@ def agregar_usuario():
     return jsonify(nuevo_usuario), 201
 
 @bp_usuarios.route('/usuarios/editar', methods=['POST'])
+@jwt_required
 def editar_usuario():
     posted_usuario = UsuariosSchema(only=('correo', 'nombre', 'apellido1', 'apellido2', 'contrasenna', 'tipo')) \
         .load(request.get_json())
@@ -72,6 +83,7 @@ def editar_usuario():
     return jsonify(usuario)
 
 @bp_usuarios.route('/usuarios', methods=['DELETE'])
+@jwt_required
 def eliminar_usuario():
     correo = request.args.get('correo')
     session = Session()
