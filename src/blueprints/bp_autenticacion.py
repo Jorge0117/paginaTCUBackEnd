@@ -30,7 +30,7 @@ def login():
     access_token = create_access_token(identity=payload)
     refresh_token = create_refresh_token(identity=payload)
 
-    return jsonify({'access_token': access_token, 'refresh_token': refresh_token}), 200
+    return jsonify({'jwt': access_token, 'refreshToken': refresh_token}), 200
 
 @bp_autenticacion.route('/login/refresh')
 @jwt_refresh_token_required
