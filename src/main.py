@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from .entities.entity import engine, Base
 from .blueprints.bp_usuarios import bp_usuarios
 from .blueprints.bp_autenticacion import bp_autenticacion
+from .blueprints.bp_areasDeInteres import bp_areasDeInteres
 
 # creating the Flask application
 app = Flask(__name__)
@@ -18,4 +19,5 @@ Base.metadata.create_all(engine)
 
 app.register_blueprint(bp_usuarios)
 app.register_blueprint(bp_autenticacion)
+app.register_blueprint(bp_areasDeInteres)
 
