@@ -7,7 +7,6 @@ from ..entities.areasDeInteres import AreasDeInteres, AreasDeInteresSchema
 bp_areasDeInteres = Blueprint('bp_areasDeInteres', __name__)
 
 @bp_areasDeInteres.route('/areasdeinteres')
-@jwt_required
 def consultar_areas_de_interes():
     session = Session()
     objeto_areasdeinteres = session.query(AreasDeInteres).all()
@@ -41,8 +40,8 @@ def agregar_areas_de_interes():
 
     session = Session()
 
-    usuario_base = session.query(AreasDeInteres).get(area.id)
-    if usuario_base is not None:
+    area_base = session.query(AreasDeInteres).get(area.id)
+    if area_base is not None:
         session.close()
         return 'Área de interés ya se encuentra en la base', 409
 
