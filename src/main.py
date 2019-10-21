@@ -8,6 +8,7 @@ from .blueprints.bp_usuarios import bp_usuarios
 from .blueprints.bp_autenticacion import bp_autenticacion
 from .blueprints.bp_areasDeInteres import bp_areasDeInteres
 from .blueprints.bp_files import bp_files
+from .blueprints.bp_articulos import bp_articulos
 
 
 # creating the Flask application
@@ -25,4 +26,5 @@ app.register_blueprint(bp_usuarios)
 app.register_blueprint(bp_autenticacion)
 app.register_blueprint(bp_areasDeInteres)
 app.register_blueprint(bp_files)
+app.register_blueprint(bp_articulos)
 
