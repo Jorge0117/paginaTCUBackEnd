@@ -12,6 +12,7 @@ mysqlclient = "*"
 flask = "*"
 marshmallow = "*"
 flask-cors = "*"
+apscheduler = "*"
 
 [requires]
 python_version = "3.7"

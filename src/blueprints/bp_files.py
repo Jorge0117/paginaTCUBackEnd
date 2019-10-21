@@ -6,8 +6,8 @@ from flask_jwt_extended import jwt_required
 from werkzeug.utils import secure_filename
 from pathlib import Path
 
-
 bp_files = Blueprint('bp_files', __name__)
+
 
 @bp_files.route('/upload/document', methods=['POST'])
 @jwt_required
@@ -15,6 +15,7 @@ def uploadDocument():
     folder = 'documents/' + request.args.get('folder')
     allowed_files = ['.pdf']
     return uploadFile(allowed_files, folder)
+
 
 @bp_files.route('/upload/image', methods=['POST'])
 @jwt_required
@@ -51,7 +52,7 @@ def uploadFile(allowed_files, folder):
         return 'Tipo de archivo no permitido', 400
 
 
-@bp_files.route('/download', methods=['GET'])
+@bp_files.route('/downloadFile', methods=['GET'])
 def downloadFile():
     location = request.args.get('url')
     location = Path().cwd() / location
@@ -64,3 +65,15 @@ def downloadFile():
         as_attachment=True,
         attachment_filename=filename)
 
+
+@bp_files.route('/downloadImage', methods=['GET'])
+def downloadImage():
+    location = request.args.get('url')
+    location = Path().cwd() / location
+    filename = os.path.basename(location)
+    filename, file_extension = os.path.splitext(filename)
+    file = open(location, 'rb')
+
+    return send_file(
+        file,
+        mimetype='image/' + file_extension[1:])

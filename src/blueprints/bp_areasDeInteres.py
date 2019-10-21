@@ -6,6 +6,7 @@ from ..entities.areasDeInteres import AreasDeInteres, AreasDeInteresSchema
 
 bp_areasDeInteres = Blueprint('bp_areasDeInteres', __name__)
 
+
 @bp_areasDeInteres.route('/areasdeinteres')
 def consultar_areas_de_interes():
     session = Session()
@@ -16,6 +17,7 @@ def consultar_areas_de_interes():
 
     session.close()
     return jsonify(areasdeinteres)
+
 
 @bp_areasDeInteres.route('/areasdeinteres/id', methods=['GET'])
 @jwt_required
@@ -29,11 +31,11 @@ def consultar_areas_de_interes_id():
     session.close()
     return jsonify(areasdeinteres)
 
+
 @bp_areasDeInteres.route('/areasdeinteres', methods=['POST'])
 @jwt_required
 def agregar_areas_de_interes():
-
-    posted_area = AreasDeInteresSchema(only=('id', 'esp_nombre', 'ing_nombre', 'ubicacion_imagen'))\
+    posted_area = AreasDeInteresSchema(only=('id', 'esp_nombre', 'ing_nombre', 'ubicacion_imagen')) \
         .load(request.get_json())
 
     area = AreasDeInteres(**posted_area)
@@ -54,6 +56,7 @@ def agregar_areas_de_interes():
 
     session.close()
     return jsonify(nueva_area), 201
+
 
 @bp_areasDeInteres.route('/areasdeinteres/editar', methods=['POST'])
 @jwt_required
@@ -80,6 +83,7 @@ def editar_areas_de_interes():
     session.close()
 
     return jsonify(area)
+
 
 @bp_areasDeInteres.route('/areasdeinteres', methods=['DELETE'])
 @jwt_required

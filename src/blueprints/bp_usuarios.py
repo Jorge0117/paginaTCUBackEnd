@@ -55,7 +55,7 @@ def agregar_usuario():
     return jsonify(nuevo_usuario), 201
 
 @bp_usuarios.route('/usuarios/editar', methods=['POST'])
-@jwt_required
+#@jwt_required
 def editar_usuario():
     posted_usuario = UsuariosSchema(only=('correo', 'nombre', 'apellido1', 'apellido2', 'contrasenna', 'tipo')) \
         .load(request.get_json())
