@@ -8,7 +8,6 @@ bp_personas = Blueprint('bp_personas', __name__)
 
 
 @bp_personas.route('/personas')
-@jwt_required
 def consultar_personas():
     tipo = request.args.get('tipo')
     session = Session()
