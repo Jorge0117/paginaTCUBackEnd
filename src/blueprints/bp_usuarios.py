@@ -19,7 +19,7 @@ def consultar_usuarios():
     return jsonify(usuario)
 
 @bp_usuarios.route('/usuarios/id', methods=['GET'])
-@jwt_required
+#@jwt_required
 def consultar_usuario_id():
     correo = request.args.get('correo')
     session = Session()
