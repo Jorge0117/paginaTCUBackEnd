@@ -38,7 +38,17 @@ def agregar_articulo():
     nueva_area = ArticulosSchema().dump(articulo)
     session.commit()
 
-    # return created exam
-
     session.close()
     return jsonify(nueva_area), 201
+
+@bp_articulos.route('/articulos/id', methods=['GET'])
+@jwt_required
+def consultar_articulos_id():
+    id = request.args.get('id')
+    session = Session()
+    objeto_articulo = session.query(Articulos).get(id)
+
+    schema = ArticulosSchema()
+    areasdeinteres = schema.dump(objeto_articulo)
+    session.close()
+    return jsonify(areasdeinteres)
